@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tính Tổng Sô Tuổi</title>
+</head>
+<body>
+<h1>Tính Tổng Số Tuổi</h1>
+<script>
+    let yourAge = prompt("Nhập tuổi của bạn:");
+    let friendAge = prompt("Nhập tuổi của bạn thân:");
+    // Chuyển đổi giá trị nhập từ prompt thành số, vì prompt trả về chuỗi
+    yourAge = Number(yourAge);
+    friendAge = Number(friendAge);
+    // Kiểm tra xem giá trị nhập có hợp lệ không
+    if (isNaN(yourAge) || isNaN(friendAge)) {
+        document.write("Giá trị nhập không hợp lệ. Vui lòng nhập một số.");
+    } else {
+        // Tính tổng số tuổi
+        let totalAge = yourAge + friendAge;
+        document.write("Tổng số tuổi của hai người là: " + totalAge);
+    }
+</script>
+</body>
+</html>

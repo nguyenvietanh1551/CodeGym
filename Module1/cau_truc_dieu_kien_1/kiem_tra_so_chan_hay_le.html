@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kiểm tra số chẵn hay lẻ</title>
+</head>
+<body>
+<h1>Kiếm tra số chẵn hay lẻ</h1>
+<script>
+  let number = prompt("Nhập một số:");
+  number = Number(number);
+  if (isNaN(number)) {
+    document.write("Giá trị nhập không hợp lệ. Vui lòng nhập một số.");
+  } else {
+    if (number % 2 === 0) {
+      document.write("Số " + number + " là số chẵn.");
+    } else {
+      document.write("Số " + number + " là số lẻ.");
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tính chỉ số cân nặng của cơ thể</title>
+</head>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tính chỉ số BMI</title>
+</head>
+<body>
+<h1>Tính chỉ số cân nặng của cơ thể</h1>
+<button onclick="calculateBMI()">Bắt đầu</button>
+<p id="result"></p>
+<script>
+  function calculateBMI() {
+    let weight = parseFloat(prompt("Nhập cân nặng (kg): "));
+    let height = parseFloat(prompt("Nhập chiều cao (mét): "));
+    let bmi = weight / (height * height);
+    let interpretation;
+    if (bmi < 18.5) {
+      interpretation = "Gầy";
+    } else if (bmi >= 18.5 && bmi < 25.0) {
+      interpretation = "Bình thường";
+    } else if (bmi >= 25.0 && bmi < 30) {
+      interpretation = "Thừa cân";
+    } else {
+      interpretation = "Béo phì";
+    }
+    document.getElementById("result").innerHTML =
+            "Chỉ số BMI của bạn là: " + bmi.toFixed(2) + "<br>Phân loại: " + interpretation;
+  }
+</script>
+</body>
+</html>

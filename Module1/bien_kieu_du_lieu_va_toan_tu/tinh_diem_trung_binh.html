@@ -21,9 +21,10 @@
     let total = physics + chemistry + biology;
     // Tính điểm trung bình
     let average = total / 3;
-
     // Hiển thị kết quả
-    alert(`Tổng điểm: ${total}\nĐiểm trung bình: ${average}`);
+    document.write("<h2>Kết quả:</h2>");
+    document.write("<p>Tổng điểm: " + total.toFixed(2) + "</p>");
+    document.write("<p>Điểm trung bình: " + average.toFixed(2) + "</p>");
   }
 </script>
 </body>

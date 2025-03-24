@@ -6,13 +6,9 @@
 </head>
 <body>
 <script>
-  let radius = parseFloat(prompt("Nhập bán kính của hình tròn:"));
-  if (isNaN(radius) || radius <= 0) {
-    alert("Giá trị nhập vào không hợp lệ. Vui lòng nhập một số dương.");
-  } else {
+    let radius = parseFloat(prompt("Nhập bán kính của hình tròn:"));
     let circumference = 2 * Math.PI * radius;
     alert("Chu vi hình tròn là: " + circumference.toFixed(2));
-  }
 </script>
 </body>
 </html>

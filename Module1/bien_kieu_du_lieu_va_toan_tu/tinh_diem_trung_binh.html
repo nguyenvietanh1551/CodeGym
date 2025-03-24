@@ -7,25 +7,14 @@
 </head>
 <body>
 <script>
-  // Khai báo biến của các môn
   let physics = parseFloat(prompt("Nhập điểm môn Vật lý:"));
   let chemistry = parseFloat(prompt("Nhập điểm môn Hóa học:"));
   let biology = parseFloat(prompt("Nhập điểm môn Sinh học:"));
-  // Kiểm tra xem điểm nhập vào có hợp lệ hay không (từ 0 đến 10)
-  if (isNaN(physics) || physics < 0 || physics > 10 ||
-          isNaN(chemistry) || chemistry < 0 || chemistry > 10 ||
-          isNaN(biology) || biology < 0 || biology > 10) {
-    alert("Điểm nhập vào không hợp lệ. Vui lòng nhập điểm từ 0 đến 10.");
-  } else {
-    // Tính tổng điểm
     let total = physics + chemistry + biology;
-    // Tính điểm trung bình
     let average = total / 3;
-    // Hiển thị kết quả
     document.write("<h2>Kết quả:</h2>");
     document.write("<p>Tổng điểm: " + total.toFixed(2) + "</p>");
     document.write("<p>Điểm trung bình: " + average.toFixed(2) + "</p>");
-  }
 </script>
 </body>
 </html>

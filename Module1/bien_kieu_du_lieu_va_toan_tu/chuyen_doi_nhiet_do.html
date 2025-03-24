@@ -6,17 +6,9 @@
 </head>
 <body>
 <script>
-  // Nhập giá trị nhiệt độ Celsius từ người dùng
 let celsius = parseFloat(prompt("Nhập nhiệt độ Celsius (°C):"));
-// Kiểm tra xem giá trị nhập vào có hợp lệ không
-if (isNaN(celsius)) {
-  alert("Giá trị nhập vào không hợp lệ. Vui lòng nhập một số.");
-} else {
-  // Tính toán nhiệt độ Fahrenheit
   let fahrenheit = (9 / 5) * celsius + 32;
-  // Hiển thị kết quả bằng toán tử +
   alert(celsius + "°C = " + fahrenheit.toFixed(2) + "°F");
-}
 </script>
 </body>
 </html>

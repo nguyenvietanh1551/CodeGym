@@ -6,13 +6,9 @@
 </head>
 <body>
 <script>
-  let radius = parseFloat(prompt("Nhập bán kính của hình tròn:"));
-  if (isNaN(radius) || radius <= 0) {
-    alert("Giá trị nhập vào không hợp lệ. Vui lòng nhập một số dương.");
-  } else {
-    let area = math.PI * Math.pow(radius, 2); //note "Math.pow" hàm tính lũy thừa
+    let radius = parseFloat(prompt("Nhập bán kính của hình tròn:"));
+    let area = Math.PI * Math.pow(radius, 2); //note "Math.pow" hàm tính lũy thừa
     alert("Diện tích hình tròn là: " + area.toFixed(2)); //note "toFixed" làm tròn số thập phân
-  }
 </script>
 </body>
 </html>

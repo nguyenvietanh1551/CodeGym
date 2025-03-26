@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>BẢNG CỬU CHƯƠNG</h1>
+<div id="bangCuuChuong"></div>
+<script>
+  function taoBangCuuChuong() {
+    let bangHTML = '<table border="3">';
+    // Tạo tiêu đề bảng
+    bangHTML += '<tr><th>×</th>';
+    for (let i = 1; i <= 10; i++) {
+      bangHTML += `<th>${i}</th>`;
+    }
+    bangHTML += '</tr>';
+    // Tạo các hàng của bảng
+    for (let i = 1; i <= 10; i++) {
+      bangHTML += '<tr>';
+      bangHTML += `<th>${i}</th>`; // Tiêu đề hàng
+      // Tạo các ô trong hàng
+      for (let j = 1; j <= 10; j++) {
+        bangHTML += `<td>${i} × ${j} = ${i * j}</td>`;
+      }
+      bangHTML += '</tr>';
+    }
+    bangHTML += '</table>';
+    document.getElementById('bangCuuChuong').innerHTML = bangHTML;
+  }
+  window.onload = taoBangCuuChuong;
+</script>
+</body>
+</html>

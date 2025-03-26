@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>20 SỐ NGUYÊN TỐ ĐẦU TIÊN</h1>
+<div id="primeNumbers"></div>
+
+<script>
+  function isPrime(num) {
+    if (num <= 1) return false;
+    if (num === 2) return true;
+    // Kiểm tra từ 2 đến căn bậc 2 của num
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+      if (num % i === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function displayPrimes() {
+    const numbers = 20; // Số lượng số nguyên tố cần hiển thị
+    let count = 0;      // Đếm số nguyên tố đã tìm thấy
+    let N = 2;          // Số bắt đầu kiểm tra
+    let result = "";    // Chuỗi kết quả
+    // Vòng lặp while chính
+    while (count < numbers) {
+      if (isPrime(N)) {
+        result += N + " ";
+        count++;
+      }
+      N++;
+    }
+    document.getElementById("primeNumbers").innerHTML = result;
+  }
+  window.onload = displayPrimes;
+</script>
+</body>
+</html>

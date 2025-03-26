@@ -1,10 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>In Tam Giác Vuông</title>
 </head>
 <body>
+<h2>1. Tam giác góc dưới trái</h2>
+<div id="triangle1"></div>
 
+<h2>2. Tam giác góc trên trái </h2>
+<div id="triangle2"></div>
+
+<h2>3. Tam giác góc dưới phải </h2>
+<div id="triangle3"></div>
+
+<h2>4. Tam giác góc trên phải </h2>
+<div id="triangle4"></div>
+
+<script>
+    // 1. Tam giác góc dưới trái (for)
+    let output1 = "";
+    for (let i = 1; i <= 5; i++) {
+        for (let j = 1; j <= i; j++) {
+            output1 += "*";
+        }
+        output1 += "<br>";
+    }
+    document.getElementById("triangle1").innerHTML = output1;
+
+    // 2. Tam giác góc trên trái (while)
+    let output2 = "";
+    let i = 5;
+    while (i >= 1) {
+        let j = 1;
+        while (j <= i) {
+            output2 += "*";
+            j++;
+        }
+        output2 += "<br>";
+        i--;
+    }
+    document.getElementById("triangle2").innerHTML = output2;
+
+    // 3. Tam giác góc dưới phải (do-while)
+    let output3 = "";
+    let k = 1;
+    do {
+        let l = 5;
+        do {
+            output3 += (l > k) ? "&nbsp;" : "*";
+            l--;
+        } while (l >= 1);
+        output3 += "<br>";
+        k++;
+    } while (k <= 5);
+    document.getElementById("triangle3").innerHTML = output3;
+
+    // 4. Tam giác góc trên phải (for lồng nhau)
+    let output4 = "";
+    for (let m = 5; m >= 1; m--) {
+        for (let n = 5; n > m; n--) {
+            output4 += "&nbsp;";
+        }
+        for (let p = 1; p <= m; p++) {
+            output4 += "*";
+        }
+        output4 += "<br>";
+    }
+    document.getElementById("triangle4").innerHTML = output4;
+</script>
 </body>
 </html>

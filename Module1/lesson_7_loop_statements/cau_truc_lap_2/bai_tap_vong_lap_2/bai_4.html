@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Hình Chữ Nhật</title>
+    <style>
+        body {
+            font-family: monospace;
+            white-space: pre;
+        }
+    </style>
 </head>
 <body>
+<h2>Hình chữ nhật</h2>
+<div id="rectangle"></div>
 
+<script>
+    const rows = 5;
+    const cols = 10;
+    let output = "";
+
+    for (let i = 1; i <= rows; i++) {
+        for (let j = 1; j <= cols; j++) {
+            if (i === 1 || i === rows || j === 1 || j === cols) {
+                output += "*";
+            } else {
+                output += " ";
+            }
+            // Thêm 1 khoảng trắng sau mỗi ký tự
+            if (j < cols) output += " ";
+        }
+        output += "\n";
+    }
+
+    document.getElementById("rectangle").textContent = output;
+</script>
 </body>
 </html>

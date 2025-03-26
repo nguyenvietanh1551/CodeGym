@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tính Lãi Kép Ngân Hàng</title>
 </head>
 <body>
+<h1>Tính Lãi Kép (Lãi mẹ đẻ lãi con)</h1>
 
+<div>
+    <label>Số tiền ban đầu (VND):</label><br>
+    <input type="number" id="principal" placeholder="Ví dụ: 10000000">
+</div>
+
+<div>
+    <label>Số tháng gửi:</label><br>
+    <input type="number" id="months" placeholder="Ví dụ: 12">
+</div>
+
+<div>
+    <label>Lãi suất hàng tháng (%):</label><br>
+    <input type="number" id="rate" placeholder="Ví dụ: 0.8" step="0.01">
+</div>
+
+<button onclick="calculateInterest()">Tính Lãi</button>
+
+<h2 id="result"></h2>
+<div id="details"></div>
+
+<script>
+    function formatMoney(amount) {
+        return amount.toLocaleString('vi-VN') + ' VND';
+    }
+
+    function calculateInterest() {
+        // Lấy giá trị đầu vào
+        var P = parseFloat(document.getElementById('principal').value);
+        var m = parseInt(document.getElementById('months').value);
+        var r = parseFloat(document.getElementById('rate').value) / 100;
+
+        // Kiểm tra đầu vào
+        if (isNaN(P) || isNaN(m) || isNaN(r) || P <= 0 || m <= 0 || r <= 0) {
+            alert("Vui lòng nhập số liệu hợp lệ!");
+            return;
+        }
+
+        // Tính toán bằng vòng lặp for
+        var total = P;
+        var details = "<h3>Chi tiết từng tháng:</h3><ol>";
+
+        for (var i = 1; i <= m; i++) {
+            var interest = total * r;
+            total = total + interest;
+            details = details + "<li>Tháng " + i + ": Lãi = " + formatMoney(interest) + " | Tổng = " + formatMoney(total) + "</li>";
+        }
+
+        details = details + "</ol>";
+
+        // Hiển thị kết quả
+        document.getElementById('result').innerHTML =
+            "<b>Kết quả sau " + m + " tháng:</b><br>" +
+            "• Tiền gốc: " + formatMoney(P) + "<br>" +
+            "• Tổng lãi: " + formatMoney(total - P) + "<br>" +
+            "• Tổng nhận: <span style='color:red'>" + formatMoney(total) + "</span>";
+
+        document.getElementById('details').innerHTML = details;
+    }
+</script>
 </body>
 </html>

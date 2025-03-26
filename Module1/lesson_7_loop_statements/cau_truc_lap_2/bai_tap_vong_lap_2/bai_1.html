@@ -1,10 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dãy Fibonacci</title>
 </head>
 <body>
+<h1>In Dãy Fibonacci</h1>
+<button onclick="printFibonacci(10, 10, 3)">In Dãy Fibonacci</button>
+<div id="output"></div>
 
+<script>
+    function printFibonacci(n, maxN, numSeries) {
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = ''; // Xóa nội dung trước đó
+
+        // Sử dụng vòng lặp for
+        function fibonacciFor(n) {
+            let a = 0, b = 1;
+            let result = "Dãy Fibonacci với vòng lặp for:\n";
+            for (let i = 0; i < n; i++) {
+                result += a + ' ';
+                let temp = a;
+                a = b;
+                b = temp + b;
+            }
+            return result;
+        }
+
+        // Sử dụng vòng lặp while
+        function fibonacciWhile(n) {
+            let a = 0, b = 1;
+            let count = 0;
+            let result = "\nDãy Fibonacci với vòng lặp while:\n";
+            while (count < n) {
+                result += a + ' ';
+                let temp = a;
+                a = b;
+                b = temp + b;
+                count++;
+            }
+            return result;
+        }
+
+        // Sử dụng vòng lặp do-while
+        function fibonacciDoWhile(n) {
+            let a = 0, b = 1;
+            let count = 0;
+            let result = "\nDãy Fibonacci với vòng lặp do-while:\n";
+            if (n > 0) {
+                do {
+                    result += a + ' ';
+                    let temp = a;
+                    a = b;
+                    b = temp + b;
+                    count++;
+                } while (count < n);
+            }
+            return result;
+        }
+
+        // Vòng lặp lồng nhau
+        function fibonacciNestedLoops(maxN, numSeries) {
+            let result = "\nDãy Fibonacci với vòng lặp lồng nhau:\n";
+            for (let i = 1; i <= numSeries; i++) {
+                let a = 0, b = 1;
+                result += "Dãy Fibonacci " + i + ":\n";
+                for (let j = 0; j < maxN; j++) {
+                    result += a + ' ';
+                    let temp = a;
+                    a = b;
+                    b = temp + b;
+                }
+                result += '\n'; // Xuống dòng sau mỗi dãy
+            }
+            return result;
+        }
+
+        // Gọi các hàm và hiển thị kết quả
+        outputDiv.innerHTML += "<pre>" + fibonacciFor(n) + "</pre>";
+        outputDiv.innerHTML += "<pre>" + fibonacciWhile(n) + "</pre>";
+        outputDiv.innerHTML += "<pre>" + fibonacciDoWhile(n) + "</pre>";
+        outputDiv.innerHTML += "<pre>" + fibonacciNestedLoops(maxN, numSeries) + "</pre>";
+    }
+</script>
 </body>
 </html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>SỐ FIBONACCI ĐẦU TIÊN CHIA HẾT CHO 5</h1>
+<div id="result"></div>
+
+<script>
+  function timSoFibonacciChiaHetCho5() {
+    let a = 0, b = 1, temp;
+    let count = 0;
+    let ketQua = "";
+    while (true) {
+      if (a % 5 === 0 && a !== 0) {
+        ketQua = "Số Fibonacci đầu tiên chia hết cho 5 là: " + a + "<br>";
+        ketQua += "Vị trí trong dãy: " + (count + 1);
+        break;
+      }
+      temp = a;
+      a = b;
+      b = temp + b;
+      count++;
+      if (count > 100) {
+        ketQua = "Không tìm thấy số Fibonacci chia hết cho 5 trong 100 số đầu";
+        break;
+      }
+    }
+    document.getElementById("result").innerHTML = ketQua;
+  }
+  window.onload = timSoFibonacciChiaHetCho5;
+</script>
+</body>
+</html>

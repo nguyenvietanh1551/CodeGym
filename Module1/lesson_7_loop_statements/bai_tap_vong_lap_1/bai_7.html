@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>FIZZBUZZ CHALLENGE</h1>
+<div id="output"></div>
+<script>
+  function fizzBuzz() {
+    const output = document.getElementById('output');
+    for (let i = 1; i <= 100; i++) {
+      let item = document.createElement('div');
+      item.className = 'item';
+      if (i % 15 === 0) {
+        item.textContent = 'FizzBuzz';
+        item.classList.add('fizzbuzz');
+      } else if (i % 3 === 0) {
+        item.textContent = 'Fizz';
+        item.classList.add('fizz');
+      } else if (i % 5 === 0) {
+        item.textContent = 'Buzz';
+        item.classList.add('buzz');
+      } else {
+        item.textContent = i;
+      }
+      output.appendChild(item);
+    }
+  }
+  window.onload = fizzBuzz;
+</script>
+</body>
+</html>

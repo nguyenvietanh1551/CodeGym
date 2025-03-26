@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>20 SỐ ĐẦU TIÊN TRONG DÃY FIBONACCI</h1>
+<div id="fibonacciResult"></div>
+<script>
+    function hienThiFibonacci() {
+        let soLuong = 21;
+        let dayFibonacci = [];
+        let ketQua = "";
+        // Tạo dãy Fibonacci
+        for (let i = 0; i < soLuong; i++) {
+            if (i === 0) {
+                dayFibonacci.push(0);
+            } else if (i === 1) {
+                dayFibonacci.push(1);
+            } else {
+                dayFibonacci.push(dayFibonacci[i-1] + dayFibonacci[i-2]);
+            }
+            ketQua += dayFibonacci[i] + " ";
+        }
+        document.getElementById("fibonacciResult").innerHTML = ketQua;
+    }
+    window.onload = hienThiFibonacci;
+</script>
+</body>
+</html>

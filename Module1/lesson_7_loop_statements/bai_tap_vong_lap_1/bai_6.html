@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>TỔNG 30 SỐ CHIA HẾT CHO 7 ĐẦU TIÊN</h1>
+<div id="result"></div>
+<script>
+  function tinhTong30SoChiaHetCho7() {
+    let count = 0;
+    let soHienTai = 0;
+    let tong = 0;
+    let danhSachSo = "";
+    while (count < 30) {
+      if (soHienTai % 7 === 0 && soHienTai !== 0) {
+        tong += soHienTai;
+        danhSachSo += soHienTai;
+        if (count < 29) {
+          danhSachSo += ", ";
+        }
+        count++;
+      }
+      soHienTai++;
+    }
+    let ketQua = "30 số chia hết cho 7 đầu tiên: " + danhSachSo + "<br><br>";
+    ketQua += "Tổng của 30 số chia hết cho 7 đầu tiên là: " + tong;
+    document.getElementById("result").innerHTML = ketQua;
+  }
+  window.onload = tinhTong30SoChiaHetCho7;
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>Kiểm tra nhiệt độ</h1>
+<script>
+  function kiemTraNhietDo() {
+    let nhietDo;
+    let hopLe = false;
+
+    while (!hopLe) {
+      // Lấy nhiệt độ từ người dùng
+      nhietDo = parseFloat(prompt("Vui lòng nhập nhiệt độ hiện tại:"));
+
+      // Kiểm tra hợp lệ
+      if (isNaN(nhietDo)) {
+        alert("Vui lòng nhập số!");
+        continue;
+      }
+      // Kiểm tra điều kiện nhiệt độ
+      if (nhietDo > 100) {
+        alert("Nhiệt độ quá cao! Vui lòng GIẢM nhiệt độ.");
+      } else if (nhietDo < 20) {
+        alert("Nhiệt độ quá thấp! Vui lòng TĂNG nhiệt độ.");
+      } else {
+        alert("Nhiệt độ " + nhietDo + "°C là phù hợp!");
+        hopLe = true;
+      }
+    }
+  }
+  window.onload = kiemTraNhietDo;
+</script>
+</body>
+</html>

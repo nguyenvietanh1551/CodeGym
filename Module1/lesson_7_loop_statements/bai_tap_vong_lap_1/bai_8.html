@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Game Đoán Số</title>
+</head>
+<body>
+<h1>GAME ĐOÁN SỐ</h1>
+<button id="playButton">Chơi</button>
+<div id="result"></div>
+
+<script>
+  const playButton = document.getElementById('playButton');
+  const resultDiv = document.getElementById('result');
+
+  playButton.addEventListener('click', startGame);
+
+  function startGame() {
+    // Reset kết quả
+    resultDiv.innerHTML = '';
+
+    // Yêu cầu nhập khoảng số
+    let min, max;
+    while (true) {
+      const rangeInput = prompt("Nhập khoảng số bạn muốn đoán (ví dụ: 1-100):");
+
+      if (!rangeInput) {
+        resultDiv.innerHTML = "Bạn đã hủy trò chơi!";
+        return;
+      }
+
+      // Xử lý khoảng số
+      const rangeParts = rangeInput.split('-');
+      if (rangeParts.length !== 2) {
+        alert("Vui lòng nhập đúng định dạng (ví dụ: 1-100)");
+        continue;
+      }
+
+      min = parseInt(rangeParts[0].trim());
+      max = parseInt(rangeParts[1].trim());
+
+      if (isNaN(min) || isNaN(max) || min >= max) {
+        alert("Khoảng số không hợp lệ! Số đầu phải nhỏ hơn số cuối");
+        continue;
+      }
+
+      break;
+    }
+
+    // Tạo số ngẫu nhiên
+    const secretNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    let remainingGuesses = 3;
+
+    resultDiv.innerHTML = '<p>Số bí mật nằm trong khoảng ' + min + ' đến ' + max + '</p>';
+    resultDiv.innerHTML += '<p>Bạn có ' + remainingGuesses + ' lần đoán</p>';
+
+    // Bắt đầu vòng lặp đoán số
+    guessNumber(secretNumber, min, max, remainingGuesses);
+  }
+
+  function guessNumber(secretNumber, min, max, remainingGuesses) {
+    if (remainingGuesses <= 0) {
+      resultDiv.innerHTML += '<p style="color:red">Hết lượt đoán! Số bí mật là ' + secretNumber + '</p>';
+      return;
+    }
+
+    const guess = prompt('Lần đoán thứ ' + (4 - remainingGuesses) + ': Nhập số bạn đoán (' + min + '-' + max + '):');
+
+    if (guess === null) {
+      resultDiv.innerHTML += '<p>Bạn đã hủy trò chơi!</p>';
+      return;
+    }
+
+    const guessNumber = parseInt(guess);
+
+    if (isNaN(guessNumber)) {
+      alert("Vui lòng nhập một số hợp lệ!");
+      return guessNumber(secretNumber, min, max, remainingGuesses);
+    }
+
+    if (guessNumber < min || guessNumber > max) {
+      alert("Số phải nằm trong khoảng " + min + " đến " + max + "!");
+      return guessNumber(secretNumber, min, max, remainingGuesses);
+    }
+
+    if (guessNumber === secretNumber) {
+      resultDiv.innerHTML += '<p style="color:green">Chúc mừng! Bạn đã đoán đúng số ' + secretNumber + '!</p>';
+      return;
+    }
+
+    resultDiv.innerHTML += '<p>Lần ' + (4 - remainingGuesses) + ': Số ' + guessNumber + ' ' +
+            (guessNumber < secretNumber ? 'NHỎ HƠN' : 'LỚN HƠN') + ' số bí mật</p>';
+
+    // Giảm số lần đoán còn lại và tiếp tục
+    guessNumber(secretNumber, min, max, remainingGuesses - 1);
+  }
+</script>
+</body>
+</html>

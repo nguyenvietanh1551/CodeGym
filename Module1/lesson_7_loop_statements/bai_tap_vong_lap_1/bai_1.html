@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>Đếm từ 1 đến 100</h1>
+<div id="countResult"></div>
+
+<script>
+  function countTo100() {
+    let result = "";
+    // Sử dụng vòng lặp for để đếm từ 1 đến 100
+    for (let i = 1; i <= 100; i++) {
+      result += i + " ";
+      // Kiểm tra nếu đếm đến 99
+      if (i === 99) {
+        alert("Đã hoàn thành đếm đến 100!");
+      }
+    }
+    document.getElementById("countResult").innerHTML = result;
+  }
+  window.onload = countTo100;
+</script>
+</body>
+</html>

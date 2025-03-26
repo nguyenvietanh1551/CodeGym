@@ -1,0 +1,31 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+  <h1>TỔNG 20 SỐ FIBONACCI ĐẦU TIÊN</h1>
+  <div id="result"></div>
+  <script>
+    function tinhTongFibonacci() {
+      let soThuNhat = 0;
+      let soThuHai = 1;
+      let tong = soThuNhat + soThuHai; // Bắt đầu với tổng F(0) + F(1)
+      let dayFibonacci = soThuNhat + ", " + soThuHai;
+      for (let i = 2; i < 20; i++) {
+        let soTiepTheo = soThuNhat + soThuHai;
+        dayFibonacci += ", " + soTiepTheo;
+        tong += soTiepTheo;
+        // Cập nhật cho vòng lặp tiếp theo
+        soThuNhat = soThuHai;
+        soThuHai = soTiepTheo;
+      }
+      let ketQua = "20 số đầu tiên: " + dayFibonacci + "<br><br>";
+      ketQua += "Tổng 20 số Fibonacci đầu tiên là: " + tong;
+      document.getElementById("result").innerHTML = ketQua;
+    }
+    window.onload = tinhTongFibonacci;
+  </script>
+  </body>
+  </html>

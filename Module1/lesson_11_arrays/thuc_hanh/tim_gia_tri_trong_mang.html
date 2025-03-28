@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  // nhập giá trị cần tìm từ hộp thoại lu vào biến value
+  let value = prompt("Enter a number");
+  // khai báo mảng x và khởi tạo giá trị ban đầu cho mảng
+  let numbers = [-3, 5, 1, 3, 2, 10];
+  // dùng vòng lặp duyệt toàn bộ mảng x; kiểm tra nến mootj phần tử trong mảng x bằng giá trị được nhâập vào thì hiển thị thông báo
+  let index = -1;
+  for(let i = 0; i < numbers.length; i++) {
+    if(value == numbers[i]) {
+      index = i;
+    }
+  }
+  if(index > -1) {
+    alert("value" + value + "found at" + index);
+  } else {
+    alert("value" + value + "not found");
+  }
+</script>
+</body>
+</html>

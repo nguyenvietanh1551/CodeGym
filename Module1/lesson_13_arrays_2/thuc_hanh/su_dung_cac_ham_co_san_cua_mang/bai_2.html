@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chèn dấu - giữa các số chẵn</title>
+</head>
+<body>
+<h1>Chèn dấu "-" giữa các số chẵn liên tiếp</h1>
+
+<label for="numberInput">Nhập chuỗi số:</label>
+<input type="text" id="numberInput" placeholder="Ví dụ: 025468">
+<button onclick="processNumber()">Xử lý</button>
+
+<p id="result"></p>
+
+<script>
+  function insertDashBetweenEvens(numberString) {
+    let result = [];
+
+    for (let i = 0; i < numberString.length; i++) {
+      // Thêm ký tự hiện tại vào kết quả
+      result.push(numberString[i]);
+
+      // Nếu không phải ký tự cuối cùng
+      if (i < numberString.length - 1) {
+        const currentChar = numberString[i];
+        const nextChar = numberString[i+1];
+
+        // Chỉ xử lý nếu cả hai ký tự đều là số
+        if (!isNaN(currentChar) && !isNaN(nextChar)) {
+          const current = parseInt(currentChar);
+          const next = parseInt(nextChar);
+
+          // Kiểm tra cả hai đều chẵn
+          if (current % 2 === 0 && next % 2 === 0) {
+            result.push('-');
+          }
+        }
+      }
+    }
+
+    return result.join('');
+  }
+
+  function processNumber() {
+    const input = document.getElementById('numberInput').value.trim();
+    const resultElement = document.getElementById('result');
+
+    if (input === '') {
+      resultElement.textContent = 'Vui lòng nhập chuỗi số';
+      return;
+    }
+
+    if (!/^\d+$/.test(input)) {
+      resultElement.textContent = 'Chuỗi nhập vào chỉ được chứa các chữ số (0-9)';
+      return;
+    }
+
+    const output = insertDashBetweenEvens(input);
+    resultElement.innerHTML = `Kết quả: <strong>${output}</strong>`;
+  }
+</script>
+</body>
+</html>

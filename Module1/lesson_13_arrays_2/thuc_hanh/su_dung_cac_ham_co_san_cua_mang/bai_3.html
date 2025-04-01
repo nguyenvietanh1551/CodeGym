@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">-->
+  <title>Chuyển đổi chữ hoa - thường</title>
+</head>
+<body>
+<h1>Chuyển đổi chữ hoa thành thường và ngược lại</h1>
+
+<label for="textInput">Nhập chuỗi cần chuyển đổi:</label>
+<input type="text" id="textInput" placeholder="Ví dụ: Hello World">
+<button onclick="convertText()">Chuyển đổi</button>
+
+<p id="result"></p>
+
+<script>
+  function swapCase(text) {
+    let result = '';
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+
+      if (char === char.toUpperCase() && char !== char.toLowerCase()) {
+        // Nếu là chữ hoa thì chuyển thành thường
+        result += char.toLowerCase();
+      } else if (char === char.toLowerCase() && char !== char.toUpperCase()) {
+        // Nếu là chữ thường thì chuyển thành hoa
+        result += char.toUpperCase();
+      } else {
+        // Giữ nguyên các ký tự không phải chữ cái
+        result += char;
+      }
+    }
+
+    return result;
+  }
+
+  function convertText() {
+    const input = document.getElementById('textInput').value;
+    const resultElement = document.getElementById('result');
+
+    if (input === '') {
+      resultElement.textContent = 'Vui lòng nhập chuỗi cần chuyển đổi';
+      return;
+    }
+
+    const output = swapCase(input);
+    resultElement.innerHTML = `Kết quả: <strong>${output}</strong>`;
+  }
+</script>
+</body>
+</html>

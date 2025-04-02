@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  let str = "-5 10 -3 8 -1 0 7 -2";
+  let numbers = str.split(" ").map(Number);
+  let negativeCount = numbers.filter(x => x < 0).length;
+  console.log(`Số nguyên âm: ${negativeCount}`);
+</script>
+</body>
+</html>

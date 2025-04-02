@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  let array = [5, 12, 8, 15, 10, 3, 20, 7, 10, 18];
+  let V = 10; // Có thể thay bằng prompt hoặc nhập từ bàn phím
+  let index = array.indexOf(V);
+  if (index !== -1) {
+    for (let i = index; i < array.length - 1; i++) {
+      array[i] = arr[i + 1];
+    }
+    array[array.length - 1] = 0;
+  }
+  console.log("Mảng sau khi xóa:", array);
+</script>
+</body>
+</html>

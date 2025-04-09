@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  function isDigit(character) {
+    if (!isNaN(character) && character.trim() !== '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  let input = prompt("Nhập một ký tự:");
+  if (input) {
+    if (isDigit(input)) {
+      alert("Ký tự bạn nhập là một ký tự số!");
+    } else {
+      alert("Ký tự bạn nhập không phải là ký tự số.");
+    }
+  }
+  console.log(input);
+</script>
+</body>
+</html>

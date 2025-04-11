@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giả lập điện thoại - Mobile Class</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>📱 Giả lập hai chiếc điện thoại</h1>
+<div class="phones">
+  <div class="phone" id="nokia">
+    <h2>Nokia</h2>
+    <p>Pin: <span class="battery">100</span>%</p>
+    <p>Trạng thái: <span class="status">Tắt</span></p>
+    <textarea placeholder="Soạn tin..." class="draft"></textarea>
+    <button onclick="togglePower(nokia)">Bật/Tắt</button>
+    <button onclick="charge(nokia)">Sạc</button>
+    <button onclick="composeMessage(nokia)">Soạn</button>
+    <button onclick="sendMessage(nokia, iphone)">Gửi tới iPhone</button>
+    <button onclick="viewInbox(nokia)">Xem hộp thư đến</button>
+    <button onclick="viewSent(nokia)">Xem tin đã gửi</button>
+    <div class="log"></div>
+  </div>
+
+  <div class="phone" id="iphone">
+    <h2>iPhone</h2>
+    <p>Pin: <span class="battery">100</span>%</p>
+    <p>Trạng thái: <span class="status">Tắt</span></p>
+    <textarea placeholder="Soạn tin..." class="draft"></textarea>
+    <button onclick="togglePower(iphone)">Bật/Tắt</button>
+    <button onclick="charge(iphone)">Sạc</button>
+    <button onclick="composeMessage(iphone)">Soạn</button>
+    <button onclick="sendMessage(iphone, nokia)">Gửi tới Nokia</button>
+    <button onclick="viewInbox(iphone)">Xem hộp thư đến</button>
+    <button onclick="viewSent(iphone)">Xem tin đã gửi</button>
+    <div class="log"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuyển đổi nhiệt độ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f4fc;
+      border-radius: 4px;
+      display: none;
+    }
+    .error {
+      color: #e74c3c;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Chuyển đổi nhiệt độ</h1>
+
+  <div class="input-group">
+    <label for="celsius">Nhiệt độ (°C):</label>
+    <input type="number" id="celsius" placeholder="Nhập nhiệt độ Celsius">
+    <div id="error" class="error"></div>
+  </div>
+
+  <button id="convertBtn">Chuyển đổi</button>
+
+  <div id="result" class="result">
+    <h3>Kết quả:</h3>
+    <p>Nhiệt độ ban đầu: <span id="originalTemp"></span>°C</p>
+    <p>Fahrenheit: <span id="fahrenheit"></span>°F</p>
+    <p>Kelvin: <span id="kelvin"></span>K</p>
+  </div>
+</div>
+
+<script>
+  class Temperature {
+    constructor(celsius) {
+      if (celsius < -273.15) {
+        throw new Error("Nhiệt độ không thể thấp hơn -273.15°C (độ không tuyệt đối)");
+      }
+      this.celsius = celsius;
+    }
+
+    toFahrenheit() {
+      return (this.celsius * 9/5) + 32;
+    }
+
+    toKelvin() {
+      return this.celsius + 273.15;
+    }
+
+    getDescription() {
+      if (this.celsius < 0) {
+        return "Rất lạnh";
+      } else if (this.celsius < 15) {
+        return "Lạnh";
+      } else if (this.celsius < 25) {
+        return "Mát mẻ";
+      } else if (this.celsius < 35) {
+        return "Ấm áp";
+      } else {
+        return "Nóng";
+      }
+    }
+  }
+
+  // Xử lý sự kiện khi nhấn nút chuyển đổi
+  document.getElementById('convertBtn').addEventListener('click', function() {
+    const celsiusInput = document.getElementById('celsius');
+    const errorElement = document.getElementById('error');
+    const resultElement = document.getElementById('result');
+
+    // Ẩn thông báo lỗi và kết quả cũ
+    errorElement.style.display = 'none';
+    resultElement.style.display = 'none';
+
+    try {
+      // Lấy giá trị nhập vào
+      const celsiusValue = parseFloat(celsiusInput.value);
+
+      // Kiểm tra nếu người dùng chưa nhập gì
+      if (isNaN(celsiusValue)) {
+        throw new Error("Vui lòng nhập giá trị nhiệt độ");
+      }
+
+      // Tạo đối tượng Temperature
+      const temp = new Temperature(celsiusValue);
+
+      // Hiển thị kết quả
+      document.getElementById('originalTemp').textContent = temp.celsius;
+      document.getElementById('fahrenheit').textContent = temp.toFahrenheit().toFixed(2);
+      document.getElementById('kelvin').textContent = temp.toKelvin().toFixed(2);
+
+      // Hiển thị phần kết quả
+      resultElement.style.display = 'block';
+
+    } catch (error) {
+      // Hiển thị thông báo lỗi
+      errorElement.textContent = error.message;
+      errorElement.style.display = 'block';
+    }
+  });
+
+  // Cho phép nhấn Enter để chuyển đổi
+  document.getElementById('celsius').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      document.getElementById('convertBtn').click();
+    }
+  });
+</script>
+</body>
+</html>

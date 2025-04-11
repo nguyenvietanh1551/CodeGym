@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangle Class Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        canvas {
+            border: 1px solid #000;
+            margin: 10px 0;
+        }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Rectangle</h1>
+
+<div>
+    <label for="length">Chiều dài: </label>
+    <input type="number" id="length" value="100">
+    <label for="width">Chiều rộng: </label>
+    <input type="number" id="width" value="50">
+    <button onclick="updateRectangle()">Cập nhật</button>
+</div>
+
+<div class="info">
+    <p id="area">Diện tích: </p>
+    <p id="perimeter">Chu vi: </p>
+</div>
+
+<canvas id="rectangleCanvas" width="300" height="200"></canvas>
+
+<script>
+    // Lớp Rectangle
+    class Rectangle {
+        constructor(length, width) {
+            this.length = length;
+            this.width = width;
+        }
+
+        // Tính diện tích
+        calculateArea() {
+            return this.length * this.width;
+        }
+
+        // Tính chu vi
+        calculatePerimeter() {
+            return 2 * (this.length + this.width);
+        }
+
+        // Vẽ hình chữ nhật lên canvas
+        draw(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            // Xóa canvas trước khi vẽ
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Tính tỷ lệ để hình vừa với canvas
+            const maxWidth = canvas.width - 20;
+            const maxHeight = canvas.height - 20;
+            let drawWidth = this.width;
+            let drawLength = this.length;
+
+            if (this.width > maxWidth || this.length > maxHeight) {
+                const scale = Math.min(maxWidth / this.width, maxHeight / this.length);
+                drawWidth = this.width * scale;
+                drawLength = this.length * scale;
+            }
+
+            // Tính vị trí để căn giữa
+            const x = (canvas.width - drawWidth) / 2;
+            const y = (canvas.height - drawLength) / 2;
+
+            // Vẽ hình chữ nhật
+            ctx.fillStyle = '#3498db';
+            ctx.fillRect(x, y, drawWidth, drawLength);
+            ctx.strokeStyle = '#2980b9';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, drawWidth, drawLength);
+        }
+    }
+
+    // Tạo đối tượng Rectangle ban đầu
+    let myRectangle = new Rectangle(100, 50);
+
+    // Hàm cập nhật hình chữ nhật
+    function updateRectangle() {
+        const length = parseInt(document.getElementById('length').value);
+        const width = parseInt(document.getElementById('width').value);
+
+        // Cập nhật thuộc tính
+        myRectangle.length = length;
+        myRectangle.width = width;
+
+        // Vẽ lại hình chữ nhật
+        myRectangle.draw('rectangleCanvas');
+
+        // Cập nhật thông tin diện tích và chu vi
+        document.getElementById('area').textContent = `Diện tích: ${myRectangle.calculateArea()}`;
+        document.getElementById('perimeter').textContent = `Chu vi: ${myRectangle.calculatePerimeter()}`;
+    }
+
+    // Khởi tạo ban đầu
+    window.onload = function() {
+        // Đặt giá trị ban đầu cho input
+        document.getElementById('length').value = myRectangle.length;
+        document.getElementById('width').value = myRectangle.width;
+
+        // Vẽ hình chữ nhật và hiển thị thông tin
+        updateRectangle();
+    };
+</script>
+</body>
+</html>

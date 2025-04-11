@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OOP - 1 </title>
+</head>
+<body>
+<script>
+    function Person(name, age, weight) {
+        this.name = name;
+        this.age = age;
+        this.weight = weight;
+
+        this.say = function () {
+            console.log(`Tên của tôi là ${this.name}, Tôi  ${this.age} Tuỏi , Tôi cao ${this.weight} Cm`);
+        }
+
+        this.move = function () {
+            console.log('walking...')
+        }
+    }
+
+    const person1 = new Person('Nguyen', 23, 69);
+    console.log(person1);
+
+    person1.move();
+    person1.say();
+</script>
+</body>
+</html>

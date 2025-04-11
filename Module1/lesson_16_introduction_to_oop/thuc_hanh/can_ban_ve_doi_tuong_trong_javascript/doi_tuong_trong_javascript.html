@@ -6,43 +6,43 @@
 </head>
 <body>
 <script>
-  let person = {
-    name: {first: 'Bob', last: 'Smith'},
-    age: 25,
-    interests: ['programming', 'music'],
-    greeting: function () {
-      alert('Hi! I\'m' + this.name.first + '.');
-    }
-  };
+    let person = {
+        name: {first: 'Bob', last: 'Smith'},
+        age: 25,
+        interests: ['programming', 'music'],
+        greeting: function () {
+            alert('Hi! I\'m' + this.name.first + '.');
+        }
+    };
 
-  //1. Sử dụng ký hiệu chấm (.)
-  // console.log(person.name.first);
-  // console.log(person.age);
-  // person.greeting();
+    //1. Sử dụng ký hiệu chấm (.)
+    // console.log(person.name.first);
+    // console.log(person.age);
+    // person.greeting();
 
-  //2. Sử dụng dấu ngoặc vuông ([])
-  // console.log(person['name']['first']);
-  // console.log(person['age']);
+    //2. Sử dụng dấu ngoặc vuông ([])
+    // console.log(person['name']['first']);
+    // console.log(person['age']);
 
-  // Sub-namespaces ( không gian tên phụ )
-  // console.log(person.name.first);
-  // console.log(person ['name']['last']);
+    // Sub-namespaces ( không gian tên phụ )
+    // console.log(person.name.first);
+    // console.log(person ['name']['last']);
 
-  // THIẾT LẬP HOẶC CẬP NHẬT THUỘC TÍNH VÀ PHƯƠNG THỨC
-  // 1. Cập nhật giá trị thuộc tính:
-  // person.age = 45;
-  // person.name.last = ' Nguyen';
+    // THIẾT LẬP HOẶC CẬP NHẬT THUỘC TÍNH VÀ PHƯƠNG THỨC
+    // 1. Cập nhật giá trị thuộc tính:
+    // person.age = 45;
+    // person.name.last = ' Nguyen';
 
-  //2.Thêm thuộc tính hoặc phương thức mới:
-  // person.height = '1.75m';
-  // person.sayGoodbye = function() {
-  //   alert('Goodbye!');
-  // };
+    //2.Thêm thuộc tính hoặc phương thức mới:
+    // person.height = '1.75m';
+    // person.sayGoodbye = function() {
+    //   alert('Goodbye!');
+    // };
 
 
-  // console.log(person.name.first);
-  // console.log(person ['name']['last']);
-  // console.log(person['age']);
+    // console.log(person.name.first);
+    // console.log(person ['name']['last']);
+    // console.log(person['age']);
 </script>
 </body>
 </html>

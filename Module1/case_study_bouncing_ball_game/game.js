@@ -1,4 +1,4 @@
-// Game elements
+// Các phần tử trong trò chơi
 const gameContainer = document.getElementById('gameContainer');
 const ball = document.getElementById('ball');
 const bar = document.getElementById('bar');
@@ -6,7 +6,7 @@ const scoreDisplay = document.getElementById('scoreDisplay');
 const gameOverDisplay = document.getElementById('gameOver');
 const restartBtn = document.getElementById('restartBtn');
 
-// Game constants
+// Các hằng số trong trò chơi
 const GAME_WIDTH = 600;
 const GAME_HEIGHT = 400;
 const BALL_SIZE = 20;
@@ -15,7 +15,7 @@ const BAR_HEIGHT = 15;
 const INITIAL_BALL_SPEED = 3;
 const BAR_SPEED = 8;
 
-// Game state
+// Trạng thái trò chơi
 let ballX = GAME_WIDTH / 2;
 let ballY = GAME_HEIGHT / 2;
 let ballSpeedX = INITIAL_BALL_SPEED * Math.cos(Math.PI/4);
@@ -26,15 +26,15 @@ let gameRunning = true;
 let animationId;
 let lastTimestamp = 0;
 
-// Initialize game
+// Khởi tạo trò chơi
 function initGame() {
     ballX = GAME_WIDTH / 2;
     ballY = GAME_HEIGHT / 2;
-    // Random initial angle between 30 and 60 degrees
+    // Góc khởi tạo ngẫu nhiên giữa 30 và 60 độ
     const angle = Math.random() * Math.PI/3 + Math.PI/6;
     ballSpeedX = INITIAL_BALL_SPEED * Math.cos(angle);
     ballSpeedY = INITIAL_BALL_SPEED * Math.sin(angle);
-    // Randomize initial direction
+    // Đổi chiều ngẫu nhiên
     if (Math.random() > 0.5) ballSpeedX *= -1;
 
     barX = (GAME_WIDTH - BAR_WIDTH) / 2;
@@ -50,67 +50,67 @@ function initGame() {
     animationId = requestAnimationFrame(gameLoop);
 }
 
-// Update positions of ball and bar
+// Cập nhật vị trí của quả bóng và thanh
 function updatePositions() {
     ball.style.left = `${ballX}px`;
     ball.style.top = `${ballY}px`;
     bar.style.left = `${barX}px`;
 }
 
-// Game loop
+// Vòng lặp trò chơi
 function gameLoop(timestamp) {
     if (!gameRunning) return;
 
     const deltaTime = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
 
-    // Move ball
-    ballX += ballSpeedX * (deltaTime / 16); // Normalize to 60fps
+    // Di chuyển quả bóng
+    ballX += ballSpeedX * (deltaTime / 16); // Chuẩn hóa về 60fps
     ballY += ballSpeedY * (deltaTime / 16);
 
-    // Ball collision with walls
-    // Left wall
+    // Va chạm của bóng với các bức tường
+    // Tường trái
     if (ballX <= 0) {
         ballX = 0;
         ballSpeedX *= -1;
     }
-    // Right wall
+    // Tường phải
     if (ballX + BALL_SIZE >= GAME_WIDTH) {
         ballX = GAME_WIDTH - BALL_SIZE;
         ballSpeedX *= -1;
     }
-    // Top wall
+    // Tường trên
     if (ballY <= 0) {
         ballY = 0;
         ballSpeedY *= -1;
     }
-    // Bottom wall (game over)
+    // Tường dưới (game over)
     if (ballY + BALL_SIZE >= GAME_HEIGHT) {
         gameOver();
         return;
     }
 
-    // Ball collision with bar
+    // Va chạm của bóng với thanh
     if (ballY + BALL_SIZE >= GAME_HEIGHT - 20 &&
         ballX + BALL_SIZE >= barX &&
         ballX <= barX + BAR_WIDTH) {
 
-        // Calculate relative position of hit on the bar
+        // Tính toán vị trí tương đối của điểm va chạm trên thanh
         const hitPosition = (ballX + BALL_SIZE/2 - barX) / BAR_WIDTH;
 
-        // Change angle based on where the ball hits the bar
+        // Thay đổi góc dựa trên vị trí va chạm của bóng trên thanh
         const angle = (hitPosition - 0.5) * Math.PI/2;
 
-        // Calculate new speed (slightly faster after each bounce)
+        // Tính toán tốc độ mới (nhanh hơn một chút sau mỗi lần bật lại)
         const speed = Math.sqrt(ballSpeedX*ballSpeedX + ballSpeedY*ballSpeedY) * 1.02;
 
         ballSpeedX = speed * Math.sin(angle);
         ballSpeedY = -speed * Math.cos(angle);
 
-        // Ensure ball doesn't get stuck in the bar
+        // Đảm bảo bóng không bị kẹt trong thanh
         ballY = GAME_HEIGHT - 20 - BALL_SIZE;
 
-        // Increase score only when ball hits the bar
+        // Tăng điểm chỉ khi bóng va chạm với thanh
         score += 10;
         scoreDisplay.textContent = `Score: ${score}`;
     }
@@ -119,7 +119,7 @@ function gameLoop(timestamp) {
     animationId = requestAnimationFrame(gameLoop);
 }
 
-// Handle keyboard input
+// Xử lý đầu vào từ bàn phím
 document.addEventListener('keydown', (e) => {
     if (!gameRunning) return;
 
@@ -132,7 +132,7 @@ document.addEventListener('keydown', (e) => {
     updatePositions();
 });
 
-// Game over function
+// Hàm kết thúc trò chơi
 function gameOver() {
     gameRunning = false;
     cancelAnimationFrame(animationId);
@@ -140,8 +140,8 @@ function gameOver() {
     restartBtn.style.display = 'block';
 }
 
-// Restart game
+// Khởi động lại trò chơi
 restartBtn.addEventListener('click', initGame);
 
-// Start the game
+// Bắt đầu trò chơi
 initGame();

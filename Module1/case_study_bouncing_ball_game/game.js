@@ -1,0 +1,147 @@
+// Game elements
+const gameContainer = document.getElementById('gameContainer');
+const ball = document.getElementById('ball');
+const bar = document.getElementById('bar');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const gameOverDisplay = document.getElementById('gameOver');
+const restartBtn = document.getElementById('restartBtn');
+
+// Game constants
+const GAME_WIDTH = 600;
+const GAME_HEIGHT = 400;
+const BALL_SIZE = 20;
+const BAR_WIDTH = 100;
+const BAR_HEIGHT = 15;
+const INITIAL_BALL_SPEED = 3;
+const BAR_SPEED = 8;
+
+// Game state
+let ballX = GAME_WIDTH / 2;
+let ballY = GAME_HEIGHT / 2;
+let ballSpeedX = INITIAL_BALL_SPEED * Math.cos(Math.PI/4);
+let ballSpeedY = INITIAL_BALL_SPEED * Math.sin(Math.PI/4);
+let barX = (GAME_WIDTH - BAR_WIDTH) / 2;
+let score = 0;
+let gameRunning = true;
+let animationId;
+let lastTimestamp = 0;
+
+// Initialize game
+function initGame() {
+    ballX = GAME_WIDTH / 2;
+    ballY = GAME_HEIGHT / 2;
+    // Random initial angle between 30 and 60 degrees
+    const angle = Math.random() * Math.PI/3 + Math.PI/6;
+    ballSpeedX = INITIAL_BALL_SPEED * Math.cos(angle);
+    ballSpeedY = INITIAL_BALL_SPEED * Math.sin(angle);
+    // Randomize initial direction
+    if (Math.random() > 0.5) ballSpeedX *= -1;
+
+    barX = (GAME_WIDTH - BAR_WIDTH) / 2;
+    score = 0;
+    gameRunning = true;
+
+    gameOverDisplay.style.display = 'none';
+    restartBtn.style.display = 'none';
+    scoreDisplay.textContent = 'Score: 0';
+
+    updatePositions();
+    lastTimestamp = performance.now();
+    animationId = requestAnimationFrame(gameLoop);
+}
+
+// Update positions of ball and bar
+function updatePositions() {
+    ball.style.left = `${ballX}px`;
+    ball.style.top = `${ballY}px`;
+    bar.style.left = `${barX}px`;
+}
+
+// Game loop
+function gameLoop(timestamp) {
+    if (!gameRunning) return;
+
+    const deltaTime = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
+
+    // Move ball
+    ballX += ballSpeedX * (deltaTime / 16); // Normalize to 60fps
+    ballY += ballSpeedY * (deltaTime / 16);
+
+    // Ball collision with walls
+    // Left wall
+    if (ballX <= 0) {
+        ballX = 0;
+        ballSpeedX *= -1;
+    }
+    // Right wall
+    if (ballX + BALL_SIZE >= GAME_WIDTH) {
+        ballX = GAME_WIDTH - BALL_SIZE;
+        ballSpeedX *= -1;
+    }
+    // Top wall
+    if (ballY <= 0) {
+        ballY = 0;
+        ballSpeedY *= -1;
+    }
+    // Bottom wall (game over)
+    if (ballY + BALL_SIZE >= GAME_HEIGHT) {
+        gameOver();
+        return;
+    }
+
+    // Ball collision with bar
+    if (ballY + BALL_SIZE >= GAME_HEIGHT - 20 &&
+        ballX + BALL_SIZE >= barX &&
+        ballX <= barX + BAR_WIDTH) {
+
+        // Calculate relative position of hit on the bar
+        const hitPosition = (ballX + BALL_SIZE/2 - barX) / BAR_WIDTH;
+
+        // Change angle based on where the ball hits the bar
+        const angle = (hitPosition - 0.5) * Math.PI/2;
+
+        // Calculate new speed (slightly faster after each bounce)
+        const speed = Math.sqrt(ballSpeedX*ballSpeedX + ballSpeedY*ballSpeedY) * 1.02;
+
+        ballSpeedX = speed * Math.sin(angle);
+        ballSpeedY = -speed * Math.cos(angle);
+
+        // Ensure ball doesn't get stuck in the bar
+        ballY = GAME_HEIGHT - 20 - BALL_SIZE;
+
+        // Increase score only when ball hits the bar
+        score += 10;
+        scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    updatePositions();
+    animationId = requestAnimationFrame(gameLoop);
+}
+
+// Handle keyboard input
+document.addEventListener('keydown', (e) => {
+    if (!gameRunning) return;
+
+    if (e.key === 'ArrowLeft' || e.key === 'Left') {
+        barX = Math.max(0, barX - BAR_SPEED);
+    } else if (e.key === 'ArrowRight' || e.key === 'Right') {
+        barX = Math.min(GAME_WIDTH - BAR_WIDTH, barX + BAR_SPEED);
+    }
+
+    updatePositions();
+});
+
+// Game over function
+function gameOver() {
+    gameRunning = false;
+    cancelAnimationFrame(animationId);
+    gameOverDisplay.style.display = 'block';
+    restartBtn.style.display = 'block';
+}
+
+// Restart game
+restartBtn.addEventListener('click', initGame);
+
+// Start the game
+initGame();

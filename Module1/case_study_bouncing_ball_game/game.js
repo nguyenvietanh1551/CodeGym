@@ -26,15 +26,21 @@ let gameRunning = true;
 let animationId;
 let lastTimestamp = 0;
 
+// Trạng thái phím
+let leftPressed = false;
+let rightPressed = false;
+
+// Tạo đối tượng âm thanh
+const hitSound = new Audio('ting.mp3'); // Đường dẫn đến tệp âm thanh khi va chạm
+const gameOverSound = new Audio('gameover.mp3'); // Đường dẫn đến tệp âm thanh khi game over
+
 // Khởi tạo trò chơi
 function initGame() {
     ballX = GAME_WIDTH / 2;
     ballY = GAME_HEIGHT / 2;
-    // Góc khởi tạo ngẫu nhiên giữa 30 và 60 độ
     const angle = Math.random() * Math.PI/3 + Math.PI/6;
     ballSpeedX = INITIAL_BALL_SPEED * Math.cos(angle);
     ballSpeedY = INITIAL_BALL_SPEED * Math.sin(angle);
-    // Đổi chiều ngẫu nhiên
     if (Math.random() > 0.5) ballSpeedX *= -1;
 
     barX = (GAME_WIDTH - BAR_WIDTH) / 2;
@@ -64,84 +70,95 @@ function gameLoop(timestamp) {
     const deltaTime = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
 
-    // Di chuyển quả bóng
-    ballX += ballSpeedX * (deltaTime / 16); // Chuẩn hóa về 60fps
+    // Di chuyển thanh bar theo phím đang nhấn (120fps)
+    if (leftPressed) {
+        barX = Math.max(0, barX - BAR_SPEED * (deltaTime / 16));
+    }
+    if (rightPressed) {
+        barX = Math.min(GAME_WIDTH - BAR_WIDTH, barX + BAR_SPEED * (deltaTime / 16));
+    }
+
+    // Di chuyển bóng
+    ballX += ballSpeedX * (deltaTime / 16);
     ballY += ballSpeedY * (deltaTime / 16);
 
-    // Va chạm của bóng với các bức tường
-    // Tường trái
+    // Va chạm tường
     if (ballX <= 0) {
         ballX = 0;
         ballSpeedX *= -1;
     }
-    // Tường phải
     if (ballX + BALL_SIZE >= GAME_WIDTH) {
         ballX = GAME_WIDTH - BALL_SIZE;
         ballSpeedX *= -1;
     }
-    // Tường trên
     if (ballY <= 0) {
         ballY = 0;
         ballSpeedY *= -1;
     }
-    // Tường dưới (game over)
     if (ballY + BALL_SIZE >= GAME_HEIGHT) {
         gameOver();
         return;
     }
 
-    // Va chạm của bóng với thanh
+    // Va chạm với thanh bar
     if (ballY + BALL_SIZE >= GAME_HEIGHT - 20 &&
         ballX + BALL_SIZE >= barX &&
         ballX <= barX + BAR_WIDTH) {
 
-        // Tính toán vị trí tương đối của điểm va chạm trên thanh
-        const hitPosition = (ballX + BALL_SIZE/2 - barX) / BAR_WIDTH;
-
-        // Thay đổi góc dựa trên vị trí va chạm của bóng trên thanh
-        const angle = (hitPosition - 0.5) * Math.PI/2;
-
-        // Tính toán tốc độ mới (nhanh hơn một chút sau mỗi lần bật lại)
-        const speed = Math.sqrt(ballSpeedX*ballSpeedX + ballSpeedY*ballSpeedY) * 1.02;
+        const hitPosition = (ballX + BALL_SIZE / 2 - barX) / BAR_WIDTH;
+        const angle = (hitPosition - 0.5) * Math.PI / 2;
+        const speed = Math.sqrt(ballSpeedX ** 2 + ballSpeedY ** 2) * 1.02;
 
         ballSpeedX = speed * Math.sin(angle);
         ballSpeedY = -speed * Math.cos(angle);
-
-        // Đảm bảo bóng không bị kẹt trong thanh
         ballY = GAME_HEIGHT - 20 - BALL_SIZE;
 
-        // Tăng điểm chỉ khi bóng va chạm với thanh
         score += 10;
         scoreDisplay.textContent = `Score: ${score}`;
+
+        // 🔊 Phát âm thanh khi va chạm
+        hitSound.currentTime = 0;
+        hitSound.play();
     }
 
     updatePositions();
     animationId = requestAnimationFrame(gameLoop);
 }
 
-// Xử lý đầu vào từ bàn phím
+// Xử lý nhấn và nhả phím
 document.addEventListener('keydown', (e) => {
-    if (!gameRunning) return;
-
     if (e.key === 'ArrowLeft' || e.key === 'Left') {
-        barX = Math.max(0, barX - BAR_SPEED);
+        leftPressed = true;
     } else if (e.key === 'ArrowRight' || e.key === 'Right') {
-        barX = Math.min(GAME_WIDTH - BAR_WIDTH, barX + BAR_SPEED);
+        rightPressed = true;
+    } else if (!gameRunning && (e.code === 'Space' || e.key === ' ')) {
+        initGame();
     }
-
-    updatePositions();
 });
 
-// Hàm kết thúc trò chơi
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'Left') {
+        leftPressed = false;
+    } else if (e.key === 'ArrowRight' || e.key === 'Right') {
+        rightPressed = false;
+    }
+});
+
+// Kết thúc trò chơi
 function gameOver() {
     gameRunning = false;
     cancelAnimationFrame(animationId);
+
+    // 🔊 Phát âm thanh Game Over
+    gameOverSound.currentTime = 0;
+    gameOverSound.play();
+
     gameOverDisplay.style.display = 'block';
     restartBtn.style.display = 'block';
 }
 
-// Khởi động lại trò chơi
+// Khởi động lại khi bấm nút
 restartBtn.addEventListener('click', initGame);
 
-// Bắt đầu trò chơi
+// Bắt đầu trò chơi ban đầu
 initGame();

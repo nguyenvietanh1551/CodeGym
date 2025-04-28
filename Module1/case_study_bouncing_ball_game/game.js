@@ -16,35 +16,28 @@ const INITIAL_BALL_SPEED = 3;
 const BAR_SPEED = 8;
 
 // Trạng thái trò chơi
-let ballX = GAME_WIDTH / 2;
-let ballY = GAME_HEIGHT / 2;
-let ballSpeedX = INITIAL_BALL_SPEED * Math.cos(Math.PI/4);
-let ballSpeedY = INITIAL_BALL_SPEED * Math.sin(Math.PI/4);
+let balls = [];
 let barX = (GAME_WIDTH - BAR_WIDTH) / 2;
 let score = 0;
+let milestone = 100; // Thêm bóng mới mỗi khi đạt mốc này
 let gameRunning = true;
 let animationId;
 let lastTimestamp = 0;
 
-// Trạng thái phím
+// Phím
 let leftPressed = false;
 let rightPressed = false;
 
-// Tạo đối tượng âm thanh
-const hitSound = new Audio('ting.mp3'); // Đường dẫn đến tệp âm thanh khi va chạm
-const gameOverSound = new Audio('gameover.mp3'); // Đường dẫn đến tệp âm thanh khi game over
+// Âm thanh
+const hitSound = new Audio('ting.mp3');
+const gameOverSound = new Audio('gameover.mp3');
 
 // Khởi tạo trò chơi
 function initGame() {
-    ballX = GAME_WIDTH / 2;
-    ballY = GAME_HEIGHT / 2;
-    const angle = Math.random() * Math.PI/3 + Math.PI/6;
-    ballSpeedX = INITIAL_BALL_SPEED * Math.cos(angle);
-    ballSpeedY = INITIAL_BALL_SPEED * Math.sin(angle);
-    if (Math.random() > 0.5) ballSpeedX *= -1;
-
+    balls = [createBall()]; // tạo 1 bóng
     barX = (GAME_WIDTH - BAR_WIDTH) / 2;
     score = 0;
+    milestone = 100;
     gameRunning = true;
 
     gameOverDisplay.style.display = 'none';
@@ -56,10 +49,36 @@ function initGame() {
     animationId = requestAnimationFrame(gameLoop);
 }
 
-// Cập nhật vị trí của quả bóng và thanh
+function createBall() {
+    const angle = Math.random() * Math.PI/3 + Math.PI/6;
+    let speed = INITIAL_BALL_SPEED;
+    let dirX = speed * Math.cos(angle);
+    let dirY = speed * Math.sin(angle);
+    if (Math.random() > 0.5) dirX *= -1;
+
+    // Tạo quả bóng mới (clone từ ball gốc)
+    const newBall = ball.cloneNode(true);
+    gameContainer.appendChild(newBall);
+
+    // thêm màu khi đạt điểm + bóng mới
+    const randomColor = `hsl(${Math.floor(Math.random() * 360)}, 80%, 50%)`;
+    newBall.style.backgroundColor = randomColor;
+
+    return {
+        x: GAME_WIDTH / 2,
+        y: GAME_HEIGHT / 2,
+        speedX: dirX,
+        speedY: dirY,
+        element: newBall
+    };
+}
+
+// Cập nhật vị trí của quả bóng và thanh bar
 function updatePositions() {
-    ball.style.left = `${ballX}px`;
-    ball.style.top = `${ballY}px`;
+    balls.forEach(b => {
+        b.element.style.left = `${b.x}px`;
+        b.element.style.top = `${b.y}px`;
+    });
     bar.style.left = `${barX}px`;
 }
 
@@ -70,7 +89,7 @@ function gameLoop(timestamp) {
     const deltaTime = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
 
-    // Di chuyển thanh bar theo phím đang nhấn (120fps)
+    // Di chuyển thanh bar
     if (leftPressed) {
         barX = Math.max(0, barX - BAR_SPEED * (deltaTime / 16));
     }
@@ -78,54 +97,67 @@ function gameLoop(timestamp) {
         barX = Math.min(GAME_WIDTH - BAR_WIDTH, barX + BAR_SPEED * (deltaTime / 16));
     }
 
-    // Di chuyển bóng
-    ballX += ballSpeedX * (deltaTime / 16);
-    ballY += ballSpeedY * (deltaTime / 16);
+    balls.forEach((b, index) => {
+        b.x += b.speedX * (deltaTime / 16);
+        b.y += b.speedY * (deltaTime / 16);
 
-    // Va chạm tường
-    if (ballX <= 0) {
-        ballX = 0;
-        ballSpeedX *= -1;
-    }
-    if (ballX + BALL_SIZE >= GAME_WIDTH) {
-        ballX = GAME_WIDTH - BALL_SIZE;
-        ballSpeedX *= -1;
-    }
-    if (ballY <= 0) {
-        ballY = 0;
-        ballSpeedY *= -1;
-    }
-    if (ballY + BALL_SIZE >= GAME_HEIGHT) {
-        gameOver();
-        return;
-    }
+        // Va chạm tường
+        if (b.x <= 0) {
+            b.x = 0;
+            b.speedX *= -1;
+        }
+        if (b.x + BALL_SIZE >= GAME_WIDTH) {
+            b.x = GAME_WIDTH - BALL_SIZE;
+            b.speedX *= -1;
+        }
+        if (b.y <= 0) {
+            b.y = 0;
+            b.speedY *= -1;
+        }
+        if (b.y + BALL_SIZE >= GAME_HEIGHT) {
+            // Bóng rơi khỏi màn → xóa bóng đó
+            gameContainer.removeChild(b.element);
+            balls.splice(index, 1);
 
-    // Va chạm với thanh bar
-    if (ballY + BALL_SIZE >= GAME_HEIGHT - 20 &&
-        ballX + BALL_SIZE >= barX &&
-        ballX <= barX + BAR_WIDTH) {
+            if (balls.length === 0) {
+                gameOver();
+            }
+        }
 
-        const hitPosition = (ballX + BALL_SIZE / 2 - barX) / BAR_WIDTH;
-        const angle = (hitPosition - 0.5) * Math.PI / 2;
-        const speed = Math.sqrt(ballSpeedX ** 2 + ballSpeedY ** 2) * 1.02;
+        // Va chạm với thanh bar
+        if (b.y + BALL_SIZE >= GAME_HEIGHT - 20 &&
+            b.x + BALL_SIZE >= barX &&
+            b.x <= barX + BAR_WIDTH) {
 
-        ballSpeedX = speed * Math.sin(angle);
-        ballSpeedY = -speed * Math.cos(angle);
-        ballY = GAME_HEIGHT - 20 - BALL_SIZE;
+            const hitPosition = (b.x + BALL_SIZE / 2 - barX) / BAR_WIDTH;
+            const angle = (hitPosition - 0.5) * Math.PI / 2;
+            const speed = Math.sqrt(b.speedX ** 2 + b.speedY ** 2) * 1.02;
 
-        score += 10;
-        scoreDisplay.textContent = `Score: ${score}`;
+            b.speedX = speed * Math.sin(angle);
+            b.speedY = -speed * Math.cos(angle);
+            b.y = GAME_HEIGHT - 20 - BALL_SIZE;
 
-        // 🔊 Phát âm thanh khi va chạm
-        hitSound.currentTime = 0;
-        hitSound.play();
-    }
+            // Cộng điểm
+            score += 10;
+            scoreDisplay.textContent = `Score: ${score}`;
+
+            // Phát nhạc
+            hitSound.currentTime = 0;
+            hitSound.play();
+
+            // Thêm bóng mới nếu đạt mốc điểm
+            if (score >= milestone) {
+                balls.push(createBall());
+                milestone += 100;
+            }
+        }
+    });
 
     updatePositions();
     animationId = requestAnimationFrame(gameLoop);
 }
 
-// Xử lý nhấn và nhả phím
+// Xử lý phím
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft' || e.key === 'Left') {
         leftPressed = true;
@@ -149,7 +181,7 @@ function gameOver() {
     gameRunning = false;
     cancelAnimationFrame(animationId);
 
-    // 🔊 Phát âm thanh Game Over
+    // Phát nhạc gameover
     gameOverSound.currentTime = 0;
     gameOverSound.play();
 
@@ -157,8 +189,8 @@ function gameOver() {
     restartBtn.style.display = 'block';
 }
 
-// Khởi động lại khi bấm nút
+// Khởi động lại game
 restartBtn.addEventListener('click', initGame);
 
-// Bắt đầu trò chơi ban đầu
+// Khởi động ban đầu
 initGame();

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài 6: Kiểm tra mảng số nguyên</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Bài 6: Kiểm tra mảng số nguyên</h2>
+<p>Nhập mảng số nguyên, cách nhau bằng dấu phẩy (ví dụ: 2,8,12,4):</p>
+<input id="inputArray" type="text" placeholder="Nhập mảng số nguyên">
+<button onclick="checkArray()">Kiểm tra</button>
+
+<div class="result" id="output"></div>
+
+<script>
+  function checkArray() {
+    const input = document.getElementById("inputArray").value.trim();
+    const parts = input.split(",");
+    const nums = [];
+
+    // Chuyển đổi sang số và kiểm tra hợp lệ
+    for (let i = 0; i < parts.length; i++) {
+      const num = parseInt(parts[i].trim());
+      if (isNaN(num)) {
+        document.getElementById("output").innerText = "Dữ liệu không hợp lệ!";
+        return;
+      }
+      nums.push(num);
+    }
+
+    let hasEven = false;
+    let hasOdd = false;
+
+    for (let num of nums) {
+      if (num % 2 === 0) hasEven = true;
+      else hasOdd = true;
+    }
+
+    let result;
+    if (hasEven && hasOdd) result = -1;
+    else if (hasEven) result = 1;
+    else result = 0;
+
+    document.getElementById("output").innerText = "Kết quả: " + result;
+  }
+</script>
+
+</body>
+</html>

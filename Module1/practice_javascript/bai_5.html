@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài 5: Tìm số lớn nhất sau khi xóa 1 chữ số</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Bài 5: Tìm số lớn nhất (sau khi xóa 1 chữ số)</h2>
+<p>Nhập một số có 4 chữ số:</p>
+<input id="inputNumber" type="number" placeholder="Ví dụ: 1923">
+<button onclick="findMaxNumber()">Tìm số lớn nhất</button>
+
+<div class="result" id="output"></div>
+
+<script>
+  function findMaxNumber() {
+    const input = document.getElementById("inputNumber").value.trim();
+    const n = parseInt(input);
+
+    // Kiểm tra n có phải là số có 4 chữ số không
+    if (isNaN(n) || n < 1000 || n > 9999) {
+      document.getElementById("output").innerText = "-1";
+      return;
+    }
+
+    const nStr = n.toString();
+    let maxVal = -Infinity;
+
+    // Thử xóa từng chữ số một và tính số mới
+    for (let i = 0; i < 4; i++) {
+      const newNumber = parseInt(nStr.slice(0, i) + nStr.slice(i + 1));
+      if (newNumber > maxVal) {
+        maxVal = newNumber;
+      }
+    }
+
+    document.getElementById("output").innerText = maxVal.toString();
+  }
+</script>
+
+</body>
+</html>

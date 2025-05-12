@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 7: Kiểm tra mảng ký tự</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+        .result { margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h2>Bài 7: Kiểm tra mảng ký tự</h2>
+<p>Nhập mảng ký tự, cách nhau bằng dấu phẩy (ví dụ: a,b,c,d):</p>
+<input id="charArrayInput" type="text" placeholder="Nhập mảng ký tự">
+<button onclick="checkCharArray()">Kiểm tra</button>
+
+<div class="result" id="charResult"></div>
+
+<script>
+    function checkCharArray() {
+        const input = document.getElementById("charArrayInput").value.trim();
+        const arr = input.split(",").map(ch => ch.trim());
+
+        let onlyDigits = true;
+        let onlyLetters = true;
+
+        for (let ch of arr) {
+            if (!/^\d$/.test(ch)) onlyDigits = false;
+            if (!/^[a-zA-Z]$/.test(ch)) onlyLetters = false;
+        }
+
+        let result;
+        if (onlyDigits) result = 1;
+        else if (onlyLetters) result = 0;
+        else result = -1;
+
+        document.getElementById("charResult").innerText = "Kết quả: " + result;
+    }
+</script>
+
+</body>
+</html>

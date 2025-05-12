@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 1</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+        .result { margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h2>Bài 1</h2>
+<p>Nhập mảng số nguyên</p>
+<input id="arrayInput" placeholder="Ví dụ: 1,2,3,5">
+<button onclick="kiemTraMangTangDan()">Kiểm tra</button>
+
+<div class="result" id="output"></div>
+
+<script>
+    function kiemTraMangTangDan() {
+        const input = document.getElementById("arrayInput").value.trim();
+        const parts = input.split(",").map(x => x.trim());
+
+        if (parts.length === 0 || parts.length > 20) {
+            document.getElementById("output").innerText = "Vui lòng nhập từ 1 đến 20 số.";
+            return;
+        }
+
+        const array = parts.map(Number);
+        if (array.some(isNaN)) {
+            document.getElementById("output").innerText = "Dữ liệu không hợp lệ. Chỉ được nhập số.";
+            return;
+        }
+
+        let isAscending = true;
+        for (let i = 1; i < array.length; i++) {
+            if (array[i] <= array[i - 1]) {
+                isAscending = false;
+                break;
+            }
+        }
+
+        const result = isAscending ? "OK" : "NO";
+        document.getElementById("output").innerText = `Mảng đã nhập: [${array.join(", ")}]\nKết quả: ${result}`;
+    }
+</script>
+
+</body>
+</html>

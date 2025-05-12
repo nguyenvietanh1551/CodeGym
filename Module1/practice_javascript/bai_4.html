@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài 4: Rút gọn phân số</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Bài 4: Kiểm tra và rút gọn phân số</h2>
+<p>Nhập phân số dạng a/b:</p>
+<input id="inputFraction" type="text" placeholder="Ví dụ: 12/48">
+<button onclick="find()">Rút gọn</button>
+
+<div class="result" id="output"></div>
+
+<script>
+  function gcd(a, b) {
+    return b === 0 ? a : gcd(b, a % b);
+  }
+
+  function find() {
+    const input = document.getElementById("inputFraction").value.trim();
+    const parts = input.split("/");
+
+    if (parts.length !== 2) {
+      document.getElementById("output").innerText = "Không phải là phân số";
+      return;
+    }
+
+    const numerator = parseInt(parts[0]);
+    const denominator = parseInt(parts[1]);
+
+    if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
+      document.getElementById("output").innerText = "Không phải là phân số";
+      return;
+    }
+
+    if (numerator === 0) {
+      document.getElementById("output").innerText = "0";
+      return;
+    }
+
+    const ucln = gcd(Math.abs(numerator), Math.abs(denominator));
+    const simplifiedNumerator = numerator / ucln;
+    const simplifiedDenominator = denominator / ucln;
+
+    document.getElementById("output").innerText =
+            `${simplifiedNumerator}/${simplifiedDenominator}`;
+  }
+</script>
+
+</body>
+</html>

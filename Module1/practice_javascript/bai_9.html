@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài 9: Kiểm tra cặp phần tử liên kề</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Bài 9: Kiểm tra cặp phần tử liên kề</h2>
+<p>Nhập mảng số nguyên, cách nhau bằng dấu phẩy (n là số chẵn, ví dụ: 1,2,3,4):</p>
+<input id="pairInput" type="text" placeholder="Nhập mảng số">
+<button onclick="checkAdjacentPairs()">Kiểm tra</button>
+
+<div class="result" id="pairResult"></div>
+
+<script>
+  function checkAdjacentPairs() {
+    const input = document.getElementById("pairInput").value.trim();
+    const arr = input.split(",").map(Number);
+
+    if (arr.length % 2 !== 0) {
+      document.getElementById("pairResult").innerText = "Số phần tử phải là số chẵn!";
+      return;
+    }
+
+    let ok = true;
+    for (let i = 0; i < arr.length; i += 2) {
+      if (arr[i] >= arr[i + 1]) {
+        ok = false;
+        break;
+      }
+    }
+
+    document.getElementById("pairResult").innerText = "Kết quả: " + (ok ? "OK" : "NO");
+  }
+</script>
+
+</body>
+</html>

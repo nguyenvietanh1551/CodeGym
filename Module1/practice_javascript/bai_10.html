@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài 10: Tìm nguyên âm trong chuỗi</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Bài 10: Tìm nguyên âm trong chuỗi</h2>
+<p>Nhập chuỗi ký tự cần kiểm tra:</p>
+<input id="stringInput" type="text" placeholder="Nhập chuỗi bất kỳ">
+<button onclick="checkString()">Tìm nguyên âm</button>
+
+<div class="result" id="stringResult"></div>
+
+<script>
+  function checkString() {
+    const str = document.getElementById("stringInput").value;
+    const vowels = ['a', 'e', 'i', 'o', 'u'];
+    const result = [];
+
+    for (let char of str.toLowerCase()) {
+      if (vowels.includes(char) && !result.includes(char)) {
+        result.push(char);
+      }
+    }
+
+    document.getElementById("stringResult").innerText = "Nguyên âm tìm được: [" + result.join(", ") + "]";
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài 3: Kiểm tra mảng giảm dần</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Bài 3: Kiểm tra mảng giảm dần</h2>
+<p>Nhập các số cách nhau bởi dấu phẩy (ví dụ: 5,4,3,2):</p>
+<input id="inputArray" type="text" placeholder="Nhập mảng số">
+<button onclick="kiemTraGiamDan()">Kiểm tra</button>
+
+<div class="result" id="output"></div>
+
+<script>
+  function isDescendingArray(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i] < arr[i + 1]) return false;
+    }
+    return true;
+  }
+
+  function kiemTraGiamDan() {
+    const input = document.getElementById("inputArray").value;
+    let arr = input.split(',').map(Number);
+
+    if (arr.length === 0 || arr.some(isNaN)) {
+      document.getElementById("output").innerText = "Vui lòng nhập mảng số hợp lệ.";
+      return;
+    }
+
+    const ketQua = isDescendingArray(arr) ? "OK" : "NO";
+    document.getElementById("output").innerText = `Mảng: [${arr.join(", ")}] → ${ketQua}`;
+  }
+</script>
+
+</body>
+</html>

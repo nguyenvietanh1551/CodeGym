@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài 2: Kiểm tra loại tam giác</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px 0; padding: 5px; width: 100%; max-width: 400px; }
+    .result { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Bài 2: Kiểm tra loại tam giác</h2>
+<p>Nhập 3 cạnh của một tam giác:</p>
+<input id="xInput" type="number" placeholder="Cạnh x">
+<input id="yInput" type="number" placeholder="Cạnh y">
+<input id="zInput" type="number" placeholder="Cạnh z">
+<button onclick="kiemTraTamGiac()">Kiểm tra</button>
+
+<div class="result" id="output"></div>
+
+<script>
+  function check(x, y, z) {
+    // Không hợp lệ nếu có cạnh <= 0
+    if (x <= 0 || y <= 0 || z <= 0) return "Không phải là cạnh tam giác";
+
+    // Kiểm tra bất đẳng thức tam giác
+    if (x + y <= z || x + z <= y || y + z <= x) {
+      return "Không phải là cạnh tam giác";
+    }
+
+    // Sắp xếp để kiểm tra định lý Pytago
+    let sides = [x, y, z].sort((a, b) => a - b);
+    let a = sides[0], b = sides[1], c = sides[2];
+
+    // Tam giác vuông nếu bình phương cạnh lớn nhất bằng tổng bình phương hai cạnh còn lại
+    if (a * a + b * b === c * c) {
+      return "Là 3 cạnh của tam giác vuông";
+    }
+
+    return "Chỉ là 3 cạnh của một tam giác";
+  }
+
+  function kiemTraTamGiac() {
+    const x = parseFloat(document.getElementById("xInput").value);
+    const y = parseFloat(document.getElementById("yInput").value);
+    const z = parseFloat(document.getElementById("zInput").value);
+
+    if (isNaN(x) || isNaN(y) || isNaN(z)) {
+      document.getElementById("output").innerText = "Vui lòng nhập đủ 3 số hợp lệ.";
+      return;
+    }
+
+    const result = check(x, y, z);
+    document.getElementById("output").innerText = `Kết quả: ${result}`;
+  }
+</script>
+
+</body>
+</html>
